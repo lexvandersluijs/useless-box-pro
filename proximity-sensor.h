@@ -1,3 +1,5 @@
+#include <Arduino_BuiltIn.h>
+
 #include <Arduino.h>                    // To add IntelliSense for platform constants.
 #include <Wire.h>                       // To read the gesture sensor via I2C.
 #include "SparkFun_APDS9960_ESP8266.h"  // Third-party library with gesture sensor utilities.

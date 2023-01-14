@@ -1,7 +1,7 @@
 #include "speed-servo.h"
 
-const int SLOW_MOVE_DELAY = 15;
-const int Fast_MOVE_DELAY = 2;
+const int SLOW_MOVE_DELAY = 10; // was: 15
+const int Fast_MOVE_DELAY = 3;
 
 void SpeedServo::attach(uint8_t pin) {
   _servo.attach(pin);
