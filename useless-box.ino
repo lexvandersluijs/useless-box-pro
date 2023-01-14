@@ -20,15 +20,29 @@ long playCount = 0;
 bool isLidOpen = false;
 bool monitorSensor = false;
 
+bool setRandomMode = true;
+
+int mode = 0;
+const int NUM_MODES = 10;
+
 void setup() {
   initSerial();
+  delay(100);
   initServos();
+  delay(100);
   initLed();
+  delay(100);
   initSensor();
+  delay(100);
   pinMode(PIN_SWITCH, INPUT);
+  delay(100);
 
   Serial.printf("Application version: %s\n", APP_VERSION);
   Serial.println("Setup completed.");
+  delay(100);
+
+  if(setRandomMode) // also set the first mode to a random one
+    setNextMode(random(0, NUM_MODES));
 }
 
 void initSerial() {
@@ -84,8 +98,31 @@ void loop() {
   delay(250);
 }
 
+void setNextMode(int nextMode)
+{
+    mode = nextMode;
+    switch(mode)
+    {
+        case 1: 
+        monitorSensor = true;
+        break;
+
+        case 5: 
+        monitorSensor = true;
+        break;
+
+        case 8: 
+        monitorSensor = true;
+        break;
+
+        default:
+        monitorSensor = false; 
+        break;     
+    }
+}
+
 void run() {
-  switch (playCount % 10) {
+  switch (mode) {
     case 0:
     case 1:
       runSlow();
@@ -98,31 +135,32 @@ void run() {
       break;
     case 4:
       runFastThenClap();
-      monitorSensor = true;
       break;
     case 5:
       runOpenCloseThenFast();
-      monitorSensor = false;
       break;
     case 6:
       runPeekThenFast();
       break;
     case 7:
       runFastWithDelay();
-      monitorSensor = true;
       break;
     case 8:
       runClap();
-      monitorSensor = false;
       break;
     case 9:
-      runHalf();
+      runHalf(); 
       break;
     default:
       break;
   }
 
   playCount++;
+
+  if(setRandomMode)
+    setNextMode(random(0, NUM_MODES));
+  else
+    setNextMode(playCount % 10);
 }
 
 void runSlow() {
